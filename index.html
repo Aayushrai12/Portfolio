@@ -4,9 +4,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <title>Aayush Rai</title>
-    <link rel="icon" type="image/x-icon" href="favicon.jpg" />
+    <link rel="icon" type="image/x-icon" href="Logo.png" />
   </head>
 
+  <style>
+    .justified {
+      text-align: justify;
+    }
+  </style>
+  
   <body>
     <!-- Floating background shapes -->
     <div class="bg-shape bg-shape-1"></div>
@@ -19,85 +25,123 @@
         <h1>Aayush Rai</h1>
     
         <h3>
-          <a href="assets/resume.pdf">resume</a>
+          <a href="assets/Aayush-Resume.pdf">resume</a>
           | <a href="https://github.com/aayushrai12/">github</a>
           | <a href="mailto:aayushraihoney1204@gmail.com" title="aayushraihoney1204@gmail.com">email</a>
           | <a href="https://www.linkedin.com/in/aayush-rai-427563230">linkedin</a>
         </h3>
     
-        <p>
-          I am a robotics engineer and researcher specializing in embedded systems, IoT, and edge computing, with experience spanning from semiconductor physics at DRDO's research labs to medical device development undergoing clinical trials. 
-          Currently working in R&D at DSI Robotics.</p>
+        <p class = "justified">
+          I am a Robotics and IoT Engineer with a strong interest in intelligent automation and embedded 
+          systems. Currently, I work at DSI Robotics, where I design and develop smart robotic and GIS-integrated
+          solutions. Previously, I built an IoT-enabled carrier lift system (now patent-filed) and a 
+          gesture-based home automation model using edge-computing, computer vision and machine learning. I completed my 
+          B.Tech in Electronics and Communication Engineering with a minor in Computer Science, where I 
+          developed a keen interest in the intersection of hardware, software, and intelligent control systems.
+          <br><br>
+          In my free time, I enjoy singing, playing the guitar, and brainstorming new ideas and projects.
+        </p>
     
-        <h2>projects</h2>
+        <h2>patents</h2>
     
         <ul>
-          <li>
+          <li class = "justified">
             <b
               >IoT Enabled Carrier Lift System for Retrieval and Delivery of
               Essentials</b
             ><br />
-            <u>Aayush Rai</u><br />
-            <i>Bachelor's Major Thesis | Patent Filed (Publication No. 12/2025)</i
+            <u>Aayush Rai</u> | <u>Self-Drafted</u>
+            <br />
+            <i> <u>Bachelor's Major Thesis | Patent Filed (Application No. 202511021556)</u></i
             ><br />
-            A mechanical lift system designed for buildings with space constraints
-            to carry weights up to 20kg across multiple floors. Features include:
-            3D-modeled structure using SolidWorks with maximum area requirement of
-            135 in², remote operation via Blynk IoT and Sinric Pro, solar-powered
-            with closed-loop Battery Management System, and a movable joint with 2
-            DOF (±90°). The device assists elderly people, individuals with motor
-            impairments, and delivery agents. Patent published on Indian Patent
-            Office website.
+            <i>The prototype underwent extensive functional and performance testing, including 
+            load capacity verification, multi-floor travel stability, joint rotation accuracy, 
+            battery endurance, and IoT control reliability.</i> 
+            <br>
+            <a href="https://iprsearch.ipindia.gov.in/PublicSearch/" onclick="copyToClipboard('202511021556')"> Documents</a> |
+            <a href="www.google.com"> Code</a> |
+            <a href="assets/Publication.png"> Publication</a> <br />
           </li>
-    
-          <li>
+          <script>
+            function copyToClipboard(text) {
+              navigator.clipboard.writeText(text).then(() => {
+                alert("Application number copied to clipboard: " + text);
+              });
+            }
+          </script>
+        </ul>
+
+        <h2>publications</h2>
+        <ul>
+
+          <li class = "justified">
             <b>Hand Gesture Operated Multipoint Control Switch</b><br />
-            <u>Aayush Rai</u><br />
-            <i>Research Paper Under Review | Clinical Trials in Progress</i><br />
-            Edge computing-based system using Raspberry Pi, ESP-32 CAM, OpenCV,
+            <u>Aayush Rai</u> | <u>Dr. RS Saxena</u> | <u>Dr. Ram Manohar Lohia Hospital</u> <br>
+            <i><u>Research Paper Under Review | Clinical Trials in Progress</u></i>
+            <br />
+            <i>Edge computing-based system using Raspberry Pi, ESP-32 CAM, OpenCV,
             MediaPipe, and Machine Learning to enable people with motor impairments
-            to control their environment through hand gestures. Designed
-            specifically for users with limited hand motions and finger angles.
-            Research paper drafted in LaTeX covering caregiver stress reduction and
-            benefits of autonomous edge-based systems. Clinical trials planned in
-            controlled and hospital environments under guidance of Dr. RS Saxena
-            (Scientist G, SSPL, DRDO) at Lok Nayak Jai Prakash Hospital.
-          </li>
-    
-          <li>
-            <b>Inter-Departmental Tech Challenge Winner</b><br />
-            Won a college competition by assembling and making functional a robot
-            built by seniors in the shortest possible time, demonstrating strong
-            understanding of robotics fundamentals and problem-solving abilities.
-          </li>
-    
-          <li>
-            <b>Freelance Robotics Projects</b><br />
-            Worked on various projects including Near Field Communication (NFC),
-            Radio-Frequency Identification (RFID), mobile robots for daily
-            challenges, and multi-microcontroller master-slave configurations.
-            Gained expertise in working with poorly documented components, PCB
-            design, soldering, circuit analysis, and simulation tools.
+            to control their environment through hand gestures.</i> 
+            <br>
+            <a href="http://google.com"> Documents</a><br />
           </li>
         </ul>
-    
+
+        <h2>awards </h2>
+        <ul>
+
+          <li class = "justified">
+            <b>YUKTI Innovation Challenge, December 2025</b><br /> 
+            <u>National, AICTE</u> <br>
+            <b>Position-</b> <i>Fellowship Receiver</i><br>
+            <i>Built a soltuion to tie-up the e-waste industry with low level market for effective penetration</i>
+            <!--<a href="assets/IIC-meet.pdf"> Certificate </a>--> 
+          </li>
+
+          <li class = "justified">
+            <b>Sanchaar, September 2024</b><br />
+            <u>Inter-college, Delhi</u> <br>
+            <b>Position-</b> <i> First</i><br>
+            <i></i>
+
+          <li class = "justified">
+            <b>On-spot Prototyping challenge, June 2023</b><br />
+            <u>Inter-Department, GTBIT, GGSIPU, Delhi</u> <br>
+            <b>Position-</b> <i> First</i><br>
+            <i>Built a prototype of a liquid level indicator for a low conductivity liquid</i> 
+          </li>
+        </ul>
         <h2>experience</h2>
     
         <ul>
-          <li>
-            <b>Robotics Engineer</b><br />
-            DSI Robotics | Department of Research and Development<br />
-            <i>Under Chief Technical Officer</i><br />
-            Working on research and development projects in robotics, focusing on
-            creating innovative solutions for real-world problems and developing
-            systems with potential for global impact.
+          <li class = "justified">
+            <b>Industrial Trainee - Robotics</b><br />
+            Sofcon India<br />
+            <i>Summer 2023 & Follow-up Training</i><br />
+            Gained hands-on experience with Atmega family
+            microcontrollers, sensors, actuators, Embedded C, MPLab, Proteus, and
+            Serial/Parallel Communication Protocols (SPI, I2C, UART, CAN). Second
+            training: Focused on edge computing and Internet of Things applications.
+            Developed strong foundation in embedded systems and practical robotics
+            implementation. <br />
+            <a href="www.xyz.com"> Certificate </a> | <a href="www.xyz.com"> Projects</a>
           </li>
-    
-          <li>
-            <b>Research Intern</b><br />
-            Solid State Physics Laboratory, Defence Research and Development
-            Organisation (DRDO), Delhi<br />
-            <i>Under Dr. Raghvendra Sahai Saxena (Scientist 'F')</i><br />
+
+          <li class = "justified">
+            <b>Freelance Robotics Projects</b><br />
+            Worked on various projects including components like 
+            Near Field Communication (NFC), Radio-Frequency Identification (RFID), 
+            mobile robots for daily challenges, and multi-microcontroller 
+            master-slave configurations. Gained expertise in working with poorly 
+            documented components, PCB design, soldering, circuit analysis, and simulation tools. <br />
+            <a href="https://drive.google.com/drive/folders/1KGa83IxBdkxDUPcRPQOVS0Eq-MwLeYjX?usp=sharing"> Projects</a> | <a href="ddjdkkks"> Feedbacks </a> <br />
+          </li>
+
+          <li class = "justified">
+            <b>Research Intern</b> |
+            <u> <a href="https:sspl.gov.in">State Physics Laboratory, Defence Research and Development Organisation 
+              (DRDO), Delhi</a></u><br />
+            <i><u>Under <a href="https://scholar.google.co.in/citations?user=yccOXYQAAAAJ&hl=en">Dr. Raghvendra Sahai Saxena (Scientist 'G')</a></u></i><br />
             Automated the analysis and extraction of device parameters of
             Metal-Oxide Semiconductor capacitors (MOSCAPs) including fixed charge
             density, oxide capacitance, rise time, and capacitor characteristics
@@ -106,52 +150,103 @@
             capacitance and voltage of MOS devices, and developed optimized C
             program (migrated to Origin C) for automated analysis. Gained exposure
             to semiconductor fabrication facilities and cleanrooms. Received Letter
-            of Recommendation for exceptional results.
+            of Recommendation for exceptional results. <br/>
+            <a href="http://google.com"> Documents</a> | <a href="djfjdkkd"> LOR</a><br />
+          </li>
+
+          <li class = "justified">
+            <b>Robotics Engineer</b> |
+            <u> <a href="https://www.dsirobotics.com">DSI Robotics</a> | Department of Research and Development</u><br />
+            <i><u>Under Chief Technical Officer</u></i><br />
+            <p class="justified">As a Robotics Engineer in DSI Robotics' R&amp;D, <br />
+            1. Created a web GIS application using QGIS, Python and PostgreSQL (leveraging PostGIS for spatial queries) 
+            to accurately plot manholes and conduit data on a basemap; enabled interactive tools (polygon draw, area/perimeter 
+            calculations, recenter & relocate). Implemented user authentication, containerized the app with Docker, applied 
+            salted+hashed password storage and JWT-based sessions, and integrated Prometheus + Grafana for performance monitoring.<br />
+            <br />
+            2. Integrated and controlled Tamron industrial cameras via register-level manipulation to enable PTZ and OSD features; 
+            wrote a Python utility to encode text into camera-specific hex commands for on-screen display.<br />
+            <br />
+            3. Developing STM32-based embedded systems for autonomous robotics: implementing motor control and firmware for a
+            uger actuation, pan–tilt camera mounts, and bucket lift/lower operations.<br />
+
+            <a href="http://google.com"> Projects</a> <br />
+          </li>
+
+          
+        </ul>
+
+        <h2>certifications</h2>
+        <ul>
+          <li class = "justified">
+            <b>Global Navigation Satellite System</b> <br> 
+            <i><u>IIRS, Indian Space Research Organisation </u></i><br />
+            <u>Overview of GNSS | Issued January, 2024 | Grade 'A'</u><br />
+            Completed a comprehensive course on Global Navigation Satellite Systems (GNSS), 
+            covering satellite constellations, signal structures, and triangulation techniques. 
+            Gained insights into major systems like GPS, GLONASS, Galileo, BeiDou, and NavIC, 
+            along with error correction methods and integration with GIS. Explored applications 
+            in geospatial mapping, autonomous navigation, and real-time tracking.<br />
+            <a href="http://google.com"> Certificate</a> <br />
           </li>
     
-          <li>
-            <b>Industrial Trainee - Robotics</b><br />
-            Sofcon India<br />
-            <i>Summer 2023 & Follow-up Training</i><br />
-            First training: Gained hands-on experience with Atmega family
-            microcontrollers, sensors, actuators, Embedded C, MPLab, Proteus, and
-            Serial/Parallel Communication Protocols (SPI, I2C, UART, CAN). Second
-            training: Focused on edge computing and Internet of Things applications.
-            Developed strong foundation in embedded systems and practical robotics
-            implementation.
+          <li class = "justified">
+            <b>German-I</b><br>
+            <i><u>NPTEL, Indian Institute of Technology, Madras</u></i> |<br /> 
+            <u>Introduction to german | Issued May, 2025 | Grade 'Elite'</u><br />
+            Completed an introductory course in German language, focusing on basic grammar, vocabulary, 
+            and conversational skills. Topics included sentence structure, verb conjugations, 
+            common phrases, and cultural insights. Achieved proficiency in reading, writing, 
+            and basic communication in German. Currently pursuing German-II for advanced skills.<br />
+            <a href="http://google.com"> Certificate</a> <br />
           </li>
         </ul>
+
     
         <h2>skills & expertise</h2>
     
         <ul>
-          <li>
-            <b>Embedded Systems:</b> Atmega family, Raspberry Pi, ESP-32 CAM,
-            Arduino
+          <li class = "justified">
+            <b>Embedded Systems:</b> AVR family, Raspberry Pi, ESP-32,
+            Arduino, STM32
           </li>
-          <li><b>Programming:</b> Embedded C, C, Python, Origin C, LaTeX</li>
-          <li><b>Communication Protocols:</b> SPI, I2C, UART, CAN, NFC, RFID</li>
-          <li>
+          <li class = "justified"><b>Programming:</b> Embedded C, C, Python, Origin C, LaTeX</li>
+          <li class="justified"><b> Database Management system:</b> PostgreSQL, PostGIS</li>
+          <li class = "justified"><b>Communication Protocols:</b> SPI, I2C, UART, CAN, NFC, RFID</li>
+          <li class = "justified">
             <b>Software & Tools:</b> SolidWorks, OpenCV, MediaPipe, MPLab, Proteus,
             Blynk IoT, Sinric Pro
           </li>
-          <li>
+          <li class = "justified">
             <b>Hardware Skills:</b> PCB design, soldering, circuit analysis, sensor
             integration
           </li>
-          <li>
+          <li class = "justified">
             <b>Specializations:</b> IoT systems, edge computing, machine learning
             for robotics, automation
           </li>
         </ul>
     
         <footer>
-          Made with &#10084;&#65039; in plain HTML and CSS (<a
+          Original Source <3 (<a
             href="https://github.com/rishabh-ranjan/rishabh-ranjan.github.io"
             >source</a
           >).
         </footer>
         <br />
     </div>
+
+    <script>
+      // Make all links open in a new tab/window and add safe rel attributes
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('a[href]').forEach(function(a) {
+          a.setAttribute('target', '_blank');
+          var rel = a.getAttribute('rel') || '';
+          if (!/\bnoopener\b/.test(rel)) rel = (rel + ' noopener').trim();
+          if (!/\bnoreferrer\b/.test(rel)) rel = (rel + ' noreferrer').trim();
+          a.setAttribute('rel', rel);
+        });
+      });
+    </script>
   </body>
 </html>
