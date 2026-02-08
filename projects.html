@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Aayush Rai | Project Media</title>
+  <link rel="icon" type="image/x-icon" href="Logo.png" />
+
+  <style>
+    .justified { text-align: justify; }
+    .page-title { margin-top: 8px; }
+    .muted { opacity: .85; }
+
+    .media-toolbar{
+      display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+      margin: 14px 0;
+    }
+    .media-input{
+      padding:10px 12px; border-radius:12px;
+      border:1px solid rgba(0,0,0,.15);
+      background:rgba(0,0,0,.04);
+      min-width:240px;
+      outline:none;
+    }
+    .media-btn{
+      padding:10px 14px; border-radius:12px;
+      border:1px solid rgba(0,0,0,.15);
+      background:rgba(0,0,0,.05);
+      text-decoration:none; color:inherit;
+      cursor:pointer;
+      display:inline-block;
+    }
+
+    /* Cards */
+    .project-gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:14px;
+    }
+    .pcard{
+      border:1px solid rgba(0,0,0,.15);
+      border-radius:16px;
+      overflow:hidden;
+      cursor:pointer;
+      background:#fafafa;
+      transition:.15s;
+    }
+    .pcard:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 24px rgba(0,0,0,.1);
+    }
+    .pthumb{
+      height:160px;
+      background:#ddd;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .pthumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .ptag{
+      position:absolute;
+      top:10px; left:10px;
+      background:rgba(0,0,0,.65);
+      color:#fff;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+    }
+    .pbody{ padding:14px; }
+    .pname{ font-weight:700; }
+    .pdesc{
+      font-size:13px;
+      margin-top:6px;
+      opacity:.85;
+      line-height:1.4;
+      display:-webkit-box;
+      -webkit-line-clamp:3;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+
+    /* Modal */
+    .img-modal{
+        position:fixed;
+        inset:0;
+        display:none;
+        background: rgba(0,0,0,0.35);   /* translucent instead of black */
+        backdrop-filter: blur(14px) saturate(120%);
+        -webkit-backdrop-filter: blur(14px) saturate(120%);
+        z-index:999;
+        padding:14px;
+    }
+    .img-modal.open{ display:grid; }
+
+    .img-modal-inner{
+        margin:auto;
+        width:min(1200px,95%);
+        height:min(760px,95%);
+        background: rgba(20,20,20,0.55);   /* glass */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius:18px;
+        overflow:hidden;
+        display:grid;
+        grid-template-columns:1.3fr .7fr;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    @media(max-width:900px){
+      .img-modal-inner{
+        grid-template-columns:1fr;
+        grid-template-rows:1fr auto;
+        height:min(860px,95%);
+      }
+    }
+    .thumb-strip{
+        display:grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap:10px;
+        padding: 6px 2px;
+    }
+
+    .thumb-strip button{
+        width: 100%;
+        aspect-ratio: 3 / 2;
+        height: auto;
+        border:1px solid rgba(255,255,255,.18);
+        background: rgba(255,255,255,.06);
+        border-radius: 12px;
+        padding:0;
+        cursor:pointer;
+        overflow:hidden;
+    }
+    .thumb-strip img{
+        width:100%;
+        height:100%;
+        object-fit: cover;
+        display:block;
+    }
+    .thumb-strip button.active{
+        border-color: rgba(255,255,255,.9);
+        background: rgba(255,255,255,.12);
+    }
+
+    /* IMPORTANT: use flex column so stage gets real height always */
+    .img-viewer{
+      position:relative;
+      background:transparent;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      min-height:0; /* critical for flex children sizing */
+    }
+
+    .img-topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 12px;
+      background:rgba(0,0,0,.4);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      color:#fff;
+      flex:0 0 auto;
+    }
+    .zoom-controls{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .zbtn{
+      padding:6px 10px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.2);
+      background:rgba(255,255,255,.12);
+      color:#fff;
+      cursor:pointer;
+      user-select:none;
+    }
+    .zbtn:hover{ background:rgba(255,255,255,.16); }
+    #zLabel{ min-width:56px; text-align:right; display:inline-block; }
+
+    .img-stage{
+        flex:1 1 auto;
+        min-height:0;
+        width:100%;
+        position: relative;       /* NEW */
+        overflow:hidden;
+        cursor:grab;
+        touch-action:none;
+        background: transparent;
+    }
+    .img-stage:active{ cursor:grabbing; }
+
+    /* Hard-center anchor: fixes "center is wrong" forever */
+    #viewerImg{
+        position:absolute;         /* NEW */
+        left:50%;                  /* NEW */
+        top:50%;                   /* NEW */
+        display:block;
+        user-select:none;
+        pointer-events:none;
+        max-width:none !important;
+        max-height:none !important;
+        transform-origin:center center;
+        will-change:transform;
+    }
+
+    /* .img-stage img{
+      display:block;
+      user-select:none;
+      pointer-events:none;
+      max-width:none;
+      max-height:none;
+      transform-origin:center center;
+      will-change:transform;
+    } */
+
+    .img-side{
+        padding:16px;
+        color:#fff;
+        background: transparent;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-left: 10px transparent;
+        display:grid;
+        gap:12px;
+        overflow:auto;
+    }
+
+    @media(max-width:900px){
+      .img-side{ border-left:none; border-top:1px solid rgba(255,255,255,.12); }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="bg-shape bg-shape-1"></div>
+  <div class="bg-shape bg-shape-2"></div>
+  <div class="bg-shape bg-shape-3"></div>
+
+  <div class="container">
+    <h1 class="page-title">Project Media</h1>
+    <p class="justified muted">Click a project to view images with zoom and pan.</p>
+
+    <div class="media-toolbar">
+      <input id="search" class="media-input" placeholder="Search by name/tag..." />
+      <a class="media-btn" href="index.html">Back to Home</a>
+    </div>
+
+    <div id="gallery" class="project-gallery"></div>
+  </div>
+
+  <!-- Modal -->
+  <div class="img-modal" id="imgModal" aria-hidden="true">
+    <div class="img-modal-inner" role="dialog" aria-modal="true">
+      <div class="img-viewer">
+        <div class="img-topbar">
+          <div class="zoom-controls">
+                <button class="zbtn" id="prevImg">Prev</button>
+                <button class="zbtn" id="nextImg">Next</button>
+
+                <button class="zbtn" id="zOut">−</button>
+                <button class="zbtn" id="zIn">+</button>
+                <button class="zbtn" id="zReset">Fit</button>
+                <!-- <span id="zLabel">100%</span> -->
+            <span id="zLabel">100%</span>
+          </div>
+          <button class="zbtn" id="zClose">Close</button>
+        </div>
+        <div class="img-stage" id="stage">
+          <img id="viewerImg" alt="" />
+        </div>
+      </div>
+
+      <aside class="img-side">
+        <h3 id="vTitle" style="margin:0;"></h3>
+        <div class="img-tag" id="vTag"></div>
+        <p class="justified" id="vDesc" style="margin:0;"></p>
+        <div style="margin-top:12px;">
+        <div style="font-size:12px; opacity:.85; margin-bottom:8px;">Images</div>
+        <div id="thumbStrip" class="thumb-strip"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // ---- Data (IMPORTANT: images is an array) ----
+        const PROJECTS = [
+          {
+            name: "IOCL Refinery Control Panel",
+            tag: "Embedded / HMI",
+            images: ["assets/Panel.heic", "assets/Panel-2.heic"],
+            description:
+              "Industrial control panel with settings mode, real-time monitoring. MODBUS RTU, UART, I²C LCDs, 4–20mA temperature sensors and Push button."
+          },
+          {
+            name: "Track for Rover",
+            tag: "Motor Control / Robotics",
+            images: ["assets/Rover.heic"],
+            description:
+              "Track made for dredger robotic system, tested and developed to withstand harsh environments and carry heavy load."
+          },
+          
+        ];
+
+    // ---- DOM ----
+    const gallery = document.getElementById("gallery");
+    const modal = document.getElementById("imgModal");
+    const viewerImg = document.getElementById("viewerImg");
+    const stage = document.getElementById("stage");
+    const zLabel = document.getElementById("zLabel");
+    const search = document.getElementById("search");
+    const thumbStrip = document.getElementById("thumbStrip");
+
+
+    // ---- Transform state ----
+    let scale = 1, tx = 0, ty = 0;
+    let isPanning = false, panStart = {x:0,y:0,tx:0,ty:0};
+
+    const MIN_SCALE = 0.05;
+    const MAX_SCALE = 10;
+    const BTN_FACTOR = 1.18;
+    const FIT_PADDING = 0.96;
+
+    let currentProject = null;
+    function showIndex(idx){
+        if (!currentProject || !currentProject.images || !currentProject.images.length) return;
+        const n = currentProject.images.length;
+        currentIndex = (idx + n) % n;
+        setImage(currentProject, currentIndex);
+        }
+
+        function nextImage(){ showIndex(currentIndex + 1); }
+        function prevImage(){ showIndex(currentIndex - 1); }
+
+    let currentIndex = 0;
+        document.getElementById("nextImg").onclick = nextImage;
+        document.getElementById("prevImg").onclick = prevImage;
+
+    function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+    function clampPan(){
+      const r = stage.getBoundingClientRect();
+      const iw = viewerImg.naturalWidth || 0;
+      const ih = viewerImg.naturalHeight || 0;
+
+      if (!iw || !ih || !r.width || !r.height) return;
+
+      const sw = iw * scale;
+      const sh = ih * scale;
+
+      const maxX = Math.max(0, (sw - r.width) / 2);
+      const maxY = Math.max(0, (sh - r.height) / 2);
+
+      tx = clamp(tx, -maxX, maxX);
+      ty = clamp(ty, -maxY, maxY);
+
+      // Snap to center if it fits
+      if (maxX === 0) tx = 0;
+      if (maxY === 0) ty = 0;
+    }
+
+    function apply(){
+    clampPan();
+    viewerImg.style.transform =
+        `translate(-50%, -50%) translate(${tx}px, ${ty}px) scale(${scale})`;
+    zLabel.textContent = Math.round(scale * 100) + "%";
+    }
+
+    function fitToStage(){
+      const r = stage.getBoundingClientRect();
+      const iw = viewerImg.naturalWidth || 0;
+      const ih = viewerImg.naturalHeight || 0;
+
+      // If stage is not laid out yet, wait for next paint
+      if (!r.width || !r.height || !iw || !ih) return;
+
+      const sx = r.width / iw;
+      const sy = r.height / ih;
+      const fit = Math.min(sx, sy) * FIT_PADDING;
+
+      scale = clamp(fit, MIN_SCALE, MAX_SCALE);
+      tx = 0;
+      ty = 0;
+      apply();
+    }
+
+    // Key fix: ensure stage has real size by fitting after modal is painted
+    function fitAfterPaint(){
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          fitToStage();
+        });
+      });
+    }
+
+    function zoomAt(clientX, clientY, nextScale){
+      const r = stage.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+
+      const newScale = clamp(nextScale, MIN_SCALE, MAX_SCALE);
+      const ratio = newScale / scale;
+
+      const x = clientX - r.left - r.width / 2;
+      const y = clientY - r.top  - r.height / 2;
+
+      tx = x - (x - tx) * ratio;
+      ty = y - (y - ty) * ratio;
+
+      scale = newScale;
+      apply();
+    }
+
+    function setImage(p, idx){
+      currentProject = p;
+      currentIndex = idx;
+      renderThumbs(p);
+
+      const url = (p.images && p.images[idx]) ? p.images[idx] : "";
+
+        viewerImg.onerror = () => {
+        console.error("Image failed to load:", url);
+        viewerImg.removeAttribute("src");
+        viewerImg.alt = "Image failed to load. Convert HEIC to JPG/PNG/WEBP.";
+        scale = 1; tx = 0; ty = 0;
+        apply();
+        };
+
+      viewerImg.onload = () => {
+        // Fit AFTER the modal+stage are actually visible and sized
+        fitAfterPaint();
+        updateThumbActive();
+      };
+
+      viewerImg.src = url;
+    }
+
+    function openModal(p){
+      document.getElementById("vTitle").textContent = p.name || "Project";
+    //   document.getElementById("vTag").textContent = p.tag || "Project";
+      document.getElementById("vDesc").textContent = p.description || "";
+
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+
+      // Set image AFTER open (so stage has size)
+      requestAnimationFrame(() => setImage(p, 0));
+    }
+
+    function closeModal(){
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      currentProject = null;
+    }
+
+    function renderThumbs(p){
+        if (!thumbStrip) return;
+        thumbStrip.innerHTML = "";
+
+        const imgs = (p.images || []);
+        imgs.forEach((url, idx) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = (idx === currentIndex) ? "active" : "";
+
+            const im = document.createElement("img");
+            im.loading = "lazy";
+            im.src = url;
+            im.alt = "";
+
+            im.onerror = () => {
+            // Hide broken thumbs quietly
+            im.style.display = "none";
+            btn.style.minWidth = "86px";
+            };
+
+            btn.appendChild(im);
+            btn.addEventListener("click", () => setImage(p, idx));
+
+            thumbStrip.appendChild(btn);
+        });
+        }
+
+    function updateThumbActive(){
+        if (!thumbStrip) return;
+        [...thumbStrip.querySelectorAll("button")].forEach((b, i) => {
+            b.classList.toggle("active", i === currentIndex);
+        });
+}
+
+
+    // Controls
+    document.getElementById("zClose").onclick = closeModal;
+    document.getElementById("zReset").onclick = fitAfterPaint;
+
+    document.getElementById("zIn").onclick = () => {
+      const r = stage.getBoundingClientRect();
+      zoomAt(r.left + r.width/2, r.top + r.height/2, scale * BTN_FACTOR);
+    };
+    document.getElementById("zOut").onclick = () => {
+      const r = stage.getBoundingClientRect();
+      zoomAt(r.left + r.width/2, r.top + r.height/2, scale / BTN_FACTOR);
+    };
+
+    stage.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const factor = (e.deltaY > 0) ? (1 / BTN_FACTOR) : BTN_FACTOR;
+      zoomAt(e.clientX, e.clientY, scale * factor);
+    }, { passive: false });
+
+    // Pan
+    stage.addEventListener("mousedown", (e) => {
+      isPanning = true;
+      panStart = { x: e.clientX, y: e.clientY, tx, ty };
+    });
+    window.addEventListener("mousemove", (e) => {
+      if (!isPanning) return;
+      tx = panStart.tx + (e.clientX - panStart.x);
+      ty = panStart.ty + (e.clientY - panStart.y);
+      apply();
+    });
+    window.addEventListener("mouseup", () => { isPanning = false; });
+
+    // Touch pan
+    stage.addEventListener("touchstart", (e) => {
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      isPanning = true;
+      panStart = { x: t.clientX, y: t.clientY, tx, ty };
+    }, { passive: true });
+
+    stage.addEventListener("touchmove", (e) => {
+      if (!isPanning || e.touches.length !== 1) return;
+      const t = e.touches[0];
+      tx = panStart.tx + (t.clientX - panStart.x);
+      ty = panStart.ty + (t.clientY - panStart.y);
+      apply();
+    }, { passive: true });
+
+    stage.addEventListener("touchend", () => { isPanning = false; });
+
+    // Close by clicking backdrop
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Keyboard
+    window.addEventListener("keydown", (e) => {
+    if (!modal.classList.contains("open")) return;
+
+    if (e.key === "Escape") closeModal();
+    if (e.key.toLowerCase() === "f") fitAfterPaint();
+
+    if (e.key === "ArrowRight") nextImage();
+    if (e.key === "ArrowLeft") prevImage();
+    });
+
+    // On resize: keep clamp correct (and re-fit if you want)
+    window.addEventListener("resize", () => {
+      if (!modal.classList.contains("open")) return;
+      apply();
+    });
+
+    // Render cards
+    function renderCards(list){
+      gallery.innerHTML = "";
+      list.forEach(p => {
+        const c = document.createElement("div");
+        c.className = "pcard";
+
+        const img0 = (p.images && p.images.length) ? p.images[0] : "";
+        c.innerHTML = `
+          <div class="pthumb">
+            ${img0 ? `<img src="${img0}" alt="">` : ``}
+            <div class="ptag">${p.tag || "Project"}</div>
+          </div>
+          <div class="pbody">
+            <div class="pname">${p.name || "Project"}</div>
+            <div class="pdesc">${p.description || ""}</div>
+          </div>
+        `;
+
+        c.onclick = () => openModal(p);
+        gallery.appendChild(c);
+      });
+    }
+
+    function filterProjects(q){
+      q = (q || "").trim().toLowerCase();
+      if (!q) return PROJECTS;
+      return PROJECTS.filter(p =>
+        (p.name || "").toLowerCase().includes(q) ||
+        (p.tag || "").toLowerCase().includes(q)
+      );
+    }
+
+    search.addEventListener("input", () => renderCards(filterProjects(search.value)));
+
+    renderCards(PROJECTS);
+  </script>
+</body>
+</html>
