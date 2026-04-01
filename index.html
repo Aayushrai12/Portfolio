@@ -29,8 +29,19 @@
           | <a href="https://github.com/aayushrai12/">github</a>
           | <a href="mailto:aayushraihoney1204@gmail.com" title="aayushraihoney1204@gmail.com">email</a>
           | <a href="https://www.linkedin.com/in/aayush-rai-427563230">linkedin</a>
-          | <a href="projects.html">projects</a>
+          | <a href="projects.html" class = "blink" > projects</a>
         </h3>
+        <style>
+            .blink {
+              animation: blink-animation 1s steps(2, start) infinite;
+            }
+
+            @keyframes blink-animation {
+              to {
+                visibility: hidden;
+              }
+            }
+          </style>
     
         <p class = "justified">
           I am a Robotics and IoT Engineer with a strong interest in intelligent automation and embedded 
